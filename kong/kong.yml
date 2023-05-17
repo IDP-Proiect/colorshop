@@ -1,0 +1,109 @@
+_format_version: "2.1"
+
+services:
+  - name: auth-service-validation
+    url: http://idp_auth-service/api/auth/validation
+    routes:
+      - name: auth-service-validation
+        paths: 
+          - /validation
+  
+  - name: auth-service-register
+    url: http://idp_auth-service/api/auth/register
+    routes:
+      - name: auth-service-register
+        paths: 
+          - /register
+
+  - name: auth-service-login
+    url: http://idp_auth-service/api/auth/login
+    routes:
+      - name: auth-service-login
+        paths: 
+          - /login
+
+  - name: fs-service-insert
+    url: http://idp_fs-service/api/insertImage
+    routes:
+      - name: fs-service-insert
+        paths: 
+          - /insertImage
+
+  - name: fs-service-get
+    url: http://idp_fs-service/api/getImage
+    routes:
+      - name: fs-service-get
+        paths: 
+          - /getImage
+
+  - name: order-service-get-id
+    url: http://idp_order-service/api/getOrder
+    routes:
+      - name: order-service-get-id
+        paths: 
+          - /getOrder
+
+  - name: order-service-get
+    url: http://idp_order-service/api/getOrders
+    routes:
+      - name: order-service-get
+        paths: 
+          - /getOrders
+
+
+  - name: order-service-getOngoingOrder
+    url: http://idp_order-service/api/getOngoingOrder
+    routes:
+      - name: order-service-getOngoingOrder
+        paths: 
+          - /getOngoingOrder
+
+  - name: order-service-orders
+    url: http://idp_order-service/api/orders
+    routes:
+      - name: order-service-orders
+        paths: 
+          - /orders
+
+  - name: order-service-addToCart
+    url: http://idp_order-service/api/addToCart
+    routes:
+      - name: order-service-addToCart
+        paths: 
+          - /addToCart
+
+  - name: order-service-removeFromCart
+    url: http://idp_order-service/api/removeFromCart
+    routes:
+      - name: order-service-removeFromCart
+        paths: 
+          - /removeFromCart
+
+  - name: order-service-checkout
+    url: http://idp_order-service/api/checkout
+    routes:
+      - name: order-service-checkout
+        paths: 
+          - /checkout
+
+  - name: product-service
+    url: http://idp_product-service/api/product/colors
+    routes:
+      - name: product-service
+        paths: 
+          - /product
+
+  - name: product-service-reserve
+    url: http://idp_product-service/api/product/reserve
+    routes:
+      - name: product-service-reserve
+        paths: 
+          - /reserve
+
+  - name: product-service-release
+    url: http://idp_product-service/api/product/release
+    routes:
+      - name: product-service-release
+        paths: 
+          - /release
+
