@@ -212,7 +212,18 @@ services:
       ports:
         - 3000:3000
       volumes:
-        - grafana_data:/var/lib/grafana
+      - type: bind
+        source: ./grafana/grafana.ini
+        target: /etc/grafana.ini
+      - type: bind
+        source: ./grafana/provisioning/datasources
+        target: /etc/grafana/provisioning/datasources
+      - type: bind
+        source: ./grafana/provisioning/dashboards
+        target: /etc/grafana/provisioning/dashboards
+      - type: bind
+        source: ./grafana/dashboards
+        target: /etc/grafana/dashboards
       deploy:
           replicas: 3
           placement:
@@ -244,6 +255,7 @@ volumes:
     pgadmin-data:
     minio-data:
     portainer_data:
+    grafana_data:
     
 networks:
     gorilla-network:

@@ -1,0 +1,6 @@
+datasources:
+  - name: prometheus
+    access: proxy
+    type: prometheus
+    url: http://idp_prometheus:9090
+    isDefault: true
