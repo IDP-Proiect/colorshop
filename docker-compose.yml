@@ -179,7 +179,8 @@ services:
         - portainer_data:/data
       deploy:
         placement:
-          constraints: [node.role == manager] 
+          constraints: [node.role == manager]
+
     prometheus:
       image: prom/prometheus
       volumes:
@@ -191,6 +192,7 @@ services:
           constraints: [node.role == manager]
       networks:
         - gorilla-network
+        - logging-network
 
     frontend-service:
       image: patricia2700/frontend-service:v1
@@ -204,6 +206,24 @@ services:
               order: stop-first
       networks:
         - gorilla-network
+
+    grafana:
+      image: grafana/grafana
+      ports:
+        - 3000:3000
+      volumes:
+        - grafana_data:/var/lib/grafana
+      deploy:
+          replicas: 3
+          placement:
+              max_replicas_per_node: 2
+          update_config:
+              order: start-first
+          rollback_config:
+              order: stop-first
+      networks:
+        - logging-network
+
 secrets:
     DATABASE_URL:
         external: true
@@ -231,3 +251,4 @@ networks:
     database-admin-network:
     product-network:
     minio-network:
+    logging-network:
