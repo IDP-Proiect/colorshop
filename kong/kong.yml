@@ -1,6 +1,13 @@
 _format_version: "2.1"
 
 services:
+  - name: front-service
+    url: http://idp_frontend-service
+    routes:
+      - name: frontend
+        paths:
+          - /
+
   - name: auth-service-validation
     url: http://idp_auth-service/api/auth/validation
     routes:
@@ -106,4 +113,94 @@ services:
       - name: product-service-release
         paths: 
           - /release
+plugins:
+  - name: prometheus
 
+  - name: cors
+    service: auth-service-register
+    config:
+      origins: 
+       - "*"
+  - name: cors
+    service: auth-service-validation
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: auth-service-login
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: fs-service-insert
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: fs-service-get
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-get-id
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-get
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-getOngoingOrder
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-orders
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-addToCart
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-removeFromCart
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: order-service-checkout
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: product-service
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: product-service-reserve
+    config:
+      origins: 
+        - "*"
+
+  - name: cors
+    service: product-service-release
+    config:
+      origins: 
+        - "*"

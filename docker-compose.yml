@@ -100,6 +100,7 @@ services:
       networks:
         - product-network
         - minio-network
+        - gorilla-network
 
     minio:
       image: quay.io/minio/minio
@@ -125,9 +126,10 @@ services:
         MINIO_SECRET_KEY_FILE: /run/secrets/MINIO_SECRET_KEY
       networks:
         - minio-network
+        - gorilla-network
 
     order-service:
-      image: baciugeorge/order-service:v1
+      image: patricia2700/order-service:v1
       environment:
         AUTH_ADDR: idp_auth-service
         PROD_ADDR: idp_product-service
@@ -157,6 +159,7 @@ services:
         KONG_PROXY_ERROR_LOG: /dev/stderr
         KONG_ADMIN_ERROR_LOG: /dev/stderr
         KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+        KONG_PLUGINS: bundled,prometheus
       ports:
         - 8000:8000 # expunerea porturilor
         - 8443:8443
@@ -166,7 +169,41 @@ services:
       networks:
         - gorilla-network
 
+    portainer:
+      image: portainer/portainer-ce
+      command: -H unix:///var/run/docker.sock
+      ports:
+        - 9001:9000
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      deploy:
+        placement:
+          constraints: [node.role == manager] 
+    prometheus:
+      image: prom/prometheus
+      volumes:
+        - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      ports:
+        - 9091:9090
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+      networks:
+        - gorilla-network
 
+    frontend-service:
+      image: patricia2700/frontend-service:v1
+      deploy:
+          replicas: 3
+          placement:
+              max_replicas_per_node: 2
+          update_config:
+              order: start-first
+          rollback_config:
+              order: stop-first
+      networks:
+        - gorilla-network
 secrets:
     DATABASE_URL:
         external: true
@@ -186,7 +223,8 @@ volumes:
     postgres-data:
     pgadmin-data:
     minio-data:
-
+    portainer_data:
+    
 networks:
     gorilla-network:
     database-network:
